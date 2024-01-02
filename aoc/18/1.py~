@@ -1,0 +1,108 @@
+instructions = {}
+cunta = 0
+with open('input.txt') as openfileobject:
+    for line in openfileobject:
+        goo =  line.split()
+        instructions[cunta] = {"d":goo[0],"l":int(goo[1]), "c": goo[2]}
+        #print(instructions[cunta]["Direction"])
+        #print(instructions[cunta]["Length"])
+        #print(instructions[cunta]["Color"])
+        cunta += 1
+
+dimensions = {"xMin":0,"xMax":0,"yMin":0,"yMax":0}
+currX = 0
+currY = 100
+for i in instructions:
+    c = instructions[i]
+    #print(c["d"])    
+    if c["d"] is "L":
+       currX -= c["l"]
+
+    if c["d"] is "R":      
+       currX += c["l"]         
+
+    if c["d"] is "D":
+       currY -= c["l"]
+
+    if c["d"] is "U":      
+       currY += c["l"]         
+    
+    if currX > dimensions["xMax"]:
+        dimensions["xMax"] = currX
+   
+    if currX < dimensions["xMin"]:
+        dimensions["xMin"] = currX
+
+    if currY > dimensions["yMax"]:
+        dimensions["yMax"] = currY
+
+    if currY < dimensions["yMin"]:
+        dimensions["yMin"] = currY
+
+rows = dimensions["xMax"]-dimensions["xMin"]+100
+cols = dimensions["yMax"]-dimensions["yMin"]
+print(rows)
+print(cols)
+diggo = [[0] * rows for _ in range(cols)]
+def pd():
+    for d in diggo:
+       for dd in d:
+           print(dd,end="")
+       print("")
+for x in range(0,rows):
+    for y in range(0,cols):
+        #print(f"X is {x}, Y is {y}")
+        diggo[y][x] = "."
+print(dimensions)
+pd()
+cx = 100
+cy = 350
+diggo[cy][cx] = "X"
+for i in instructions:
+    c = instructions[i]
+    print(c)
+    if c["d"] is "L":
+       print("left")
+       for m in range(0,c["l"]):
+          cx -= 1
+          diggo[cy][cx] = "X"
+
+    if c["d"] is "R":      
+       print("right")
+       for m in range(0,c["l"]):
+          cx += 1
+          diggo[cy][cx] = "X"
+
+    if c["d"] is "D":
+       print("down")
+       for m in range(0,c["l"]):
+          cy += 1
+          diggo[cy][cx] = "X"
+
+    if c["d"] is "U":      
+       print("up")
+       for m in range(0,c["l"]):
+          cy -= 1
+          diggo[cy][cx] = "X"         
+pd() 
+for x in range(rows-2):
+   fill = 0
+   xx = 0
+   for y in range(cols):
+      cur = diggo[y][x]
+      nxt = diggo[y][x+1]
+      nxtnxt = diggo[y][x+2]
+      if cur is "X":
+         xx += 1
+      #if fill % 2 is 1:
+        # diggo[y][x] = "X" 
+      if cur is "X" and nxt is ".": #Entered the cave
+         fill += 1
+      if cur is "." and nxt is "X": #Exiting the cave
+         fill += 1
+   print(xx)
+   if y is 20:
+      break
+print("")
+pd()
+      

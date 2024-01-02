@@ -1,0 +1,15 @@
+rejs = {}
+t = input().split()
+d = input().split()
+print(t)
+rejs[t[1]] = d[1]
+rejs[t[2]] = d[2]
+rejs[t[3]] = d[3]
+rejs[t[4]] = d[4]
+print(rejs)
+print(rejs["74"])
+for r in rejs:
+    record = rejs[r]
+    for x in range(int(r)):
+        print(x)
+        print(record)
